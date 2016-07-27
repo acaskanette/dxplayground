@@ -31,6 +31,10 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Register the window class
 	RegisterClassEx(&wc);
 
+	// Adjusting window for workable client space
+	RECT wr = { 0, 0, 800, 600 };						// Set the window size we want for the working space
+	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, FALSE);	// Adjust the window size to include borders/menus if applicable
+
 	// Create the window
 	hWnd = CreateWindowEx(NULL,
 		L"DXWindow1",							// Name of window class used
@@ -38,8 +42,8 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		WS_OVERLAPPEDWINDOW,					// Window style
 		300,									// x-position to create the window
 		300,									// y-position to create the window
-		500,									// Window width
-		400,									// Window height
+		wr.right - wr.left,						// Calculated window width
+		wr.bottom - wr.top,						// Calculated window height
 		NULL,									// Handle to parent window, NULL in our case
 		NULL,									// Handle to the menu, NULL in our case
 		hInstance,								// Handle to this application
