@@ -60,11 +60,27 @@ int WINAPI WinMain(HINSTANCE hInstance,	HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	// Holds Windows event messages
 	MSG msg;
 
-	// Wait for the next message in the queue, storing the result in 'msg'
-	while (GetMessage(&msg, NULL, 0, 0))
+	// Infinite loop
+	while (true)
 	{		
-		TranslateMessage(&msg);		// Translate keystroke messages into the right format		
-		DispatchMessage(&msg);		// Sends the message to the WindowProc callback function
+		// Check for a message in the queue, storing the result in 'msg' if there is one
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// Handle Message
+			TranslateMessage(&msg);		// Translate keystroke messages into the right format		
+			DispatchMessage(&msg);		// Sends the message to the WindowProc callback function
+
+			// Break infinite loop on Quit
+			if (msg.message == WM_QUIT)
+				break;
+			
+		}
+
+		else
+		{
+			// Call game logic in here
+		}
+
 	}
 
 	 /////////////////////
